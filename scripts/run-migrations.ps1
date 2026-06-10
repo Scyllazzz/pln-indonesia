@@ -23,8 +23,8 @@ if (-not $DatabaseUrl) {
 $env:DATABASE_URL = $DatabaseUrl
 
 Write-Host "Running: npx prisma generate"
-$n = Start-Process -FilePath npx -ArgumentList "prisma generate" -NoNewWindow -Wait -PassThru
-if ($n.ExitCode -ne 0) { Write-Error "prisma generate failed (exit $($n.ExitCode))."; exit $n.ExitCode }
+& npx prisma generate
+if ($LASTEXITCODE -ne 0) { Write-Error "prisma generate failed (exit $LASTEXITCODE)."; exit $LASTEXITCODE }
 
 Write-Host "Checking prisma/migrations folder..."
 if (Test-Path prisma\migrations -PathType Container -ErrorAction SilentlyContinue) {
@@ -35,10 +35,10 @@ if (Test-Path prisma\migrations -PathType Container -ErrorAction SilentlyContinu
 
 if ($entries -gt 0) {
     Write-Host "Migrations found ($entries). Running prisma migrate deploy"
-    $p = Start-Process -FilePath npx -ArgumentList "prisma migrate deploy" -NoNewWindow -Wait -PassThru
-    exit $p.ExitCode
+    & npx prisma migrate deploy
+    exit $LASTEXITCODE
 } else {
-    Write-Host "No migrations found — running prisma db push --accept-data-loss"
-    $p = Start-Process -FilePath npx -ArgumentList "prisma db push --accept-data-loss" -NoNewWindow -Wait -PassThru
-    exit $p.ExitCode
+    Write-Host "No migrations found - running prisma db push --accept-data-loss"
+    & npx prisma db push --accept-data-loss
+    exit $LASTEXITCODE
 }
