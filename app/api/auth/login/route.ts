@@ -68,9 +68,11 @@ export async function POST(request: NextRequest) {
     );
   } catch (error) {
     console.error('Login error:', error);
-    return NextResponse.json(
-      { message: 'Terjadi kesalahan pada server' },
-      { status: 500 }
-    );
+    const body: any = { message: 'Terjadi kesalahan pada server' };
+    if (process.env.NODE_ENV !== 'production') {
+      body.error = error instanceof Error ? error.stack : String(error);
+    }
+
+    return NextResponse.json(body, { status: 500 });
   }
 }
