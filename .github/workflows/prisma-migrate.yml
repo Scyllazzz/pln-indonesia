@@ -23,7 +23,7 @@ jobs:
       - name: Generate Prisma client
         run: npx prisma generate
 
-      - name: Debug DNS and TCP connectivity
+        - name: Debug DNS and TCP connectivity
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
