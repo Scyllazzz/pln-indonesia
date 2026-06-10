@@ -23,7 +23,49 @@ jobs:
       - name: Generate Prisma client
         run: npx prisma generate
 
-      - name: Run Prisma migrations (deploy)
+      - name: Debug DNS and TCP connectivity
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
-        run: npx prisma migrate deploy
+        run: |
+          python - <<'PY'
+          import os, sys, socket
+          from urllib.parse import urlparse
+
+          url = os.environ.get('DATABASE_URL')
+          if not url:
+            print('DATABASE_URL not set in environment')
+            sys.exit(1)
+          parsed = urlparse(url)
+          host = parsed.hostname
+          port = parsed.port or 5432
+          print('Host detected:', host)
+          print('Port detected:', port)
+          try:
+            addrs = socket.getaddrinfo(host, None)
+            print('Resolved addresses:')
+            for a in addrs:
+              print(' -', a[4][0])
+          except Exception as e:
+            print('DNS resolution error:', e)
+          try:
+            print('Testing TCP connection...')
+            s = socket.create_connection((host, port), timeout=6)
+            s.close()
+            print('TCP connection successful')
+          except Exception as e:
+            print('TCP connection failed:', e)
+            sys.exit(2)
+          PY
+
+      - name: Run Prisma migrations or push schema
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          echo "Checking for prisma/migrations folder..."
+          if [ -d prisma/migrations ] && [ "$(ls -A prisma/migrations)" ]; then
+            echo "Migrations found — running prisma migrate deploy"
+            npx prisma migrate deploy
+          else
+            echo "No migrations found — running prisma db push --accept-data-loss"
+            npx prisma db push --accept-data-loss
+          fi
