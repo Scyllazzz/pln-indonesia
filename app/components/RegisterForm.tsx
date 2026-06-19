@@ -8,12 +8,15 @@ export default function RegisterForm() {
     name: '',
     username: '',
     password: '',
-    divisi: 'Operasi',
+    divisi: '',
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState('');
+  const [modalItems, setModalItems] = useState<string[]>([]);
   const router = useRouter();
 
   const divisions = ['Operasi', 'Listrik', 'Instrumen', 'Mekanik'];
@@ -31,6 +34,20 @@ export default function RegisterForm() {
     setError('');
     setSuccess('');
     setIsLoading(true);
+
+    // Client-side validation to avoid native browser tooltip and show our popup
+    const missing: string[] = [];
+    if (!formData.name.trim()) missing.push('Nama');
+    if (!formData.username.trim()) missing.push('Username');
+    if (!formData.password.trim()) missing.push('Password');
+    if (!formData.divisi) missing.push('Divisi');
+    if (missing.length) {
+      setIsLoading(false);
+      setModalMessage('Silakan lengkapi field berikut:');
+      setModalItems(missing);
+      setShowModal(true);
+      return;
+    }
 
     try {
       const response = await fetch('/api/auth/register', {
@@ -70,7 +87,7 @@ export default function RegisterForm() {
         </div>
 
         {/* Title */}
-        <h1 className="text-3xl font-bold text-center mb-2">Register</h1>
+        <h1 className="text-3xl font-bold text-center mb-2 text-black">Register</h1>
         <p className="text-center text-gray-600 mb-8">Buat akun baru untuk mendaftar</p>
 
         {/* Error Message */}
@@ -101,8 +118,7 @@ export default function RegisterForm() {
                 value={formData.name}
                 onChange={handleChange}
                 placeholder="Masukkan nama lengkap"
-                className="w-full pl-10 pr-4 py-3 border-2 border-gray-300 rounded focus:outline-none focus:border-blue-500"
-                required
+                className="w-full pl-10 pr-4 py-3 border-2 text-black border-gray-300 rounded focus:outline-none focus:border-blue-500"
               />
             </div>
           </div>
@@ -120,8 +136,7 @@ export default function RegisterForm() {
                 value={formData.username}
                 onChange={handleChange}
                 placeholder="Masukkan username"
-                className="w-full pl-10 pr-4 py-3 border-2 border-gray-300 rounded focus:outline-none focus:border-blue-500"
-                required
+                className="w-full pl-10 pr-4 py-3 border-2 text-black border-gray-300 rounded focus:outline-none focus:border-blue-500"
               />
             </div>
           </div>
@@ -130,7 +145,7 @@ export default function RegisterForm() {
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Password</label>
             <div className="relative">
-              <svg className="absolute left-3 top-3 w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="absolute left-3 top-3 w-5 h-5 text-black text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
               <input
@@ -139,8 +154,7 @@ export default function RegisterForm() {
                 value={formData.password}
                 onChange={handleChange}
                 placeholder="Masukkan password"
-                className="w-full pl-10 pr-12 py-3 border-2 border-gray-300 rounded focus:outline-none focus:border-blue-500"
-                required
+                className="w-full pl-10 pr-12 py-3 border-2 text-black border-gray-300 rounded focus:outline-none focus:border-blue-500"
               />
               <button
                 type="button"
@@ -172,19 +186,22 @@ export default function RegisterForm() {
                 name="divisi"
                 value={formData.divisi}
                 onChange={handleChange}
-                className="w-full pl-10 pr-4 py-3 border-2 border-gray-300 rounded focus:outline-none focus:border-blue-500 appearance-none"
+                className="w-full pl-10 pr-4 py-3 border-2 text-black border-gray-300 rounded focus:outline-none focus:border-blue-500 appearance-none"
               >
+                <option value="" disabled>
+                  Pilih Divisimu
+                </option>
                 {divisions.map((div) => (
                   <option key={div} value={div}>
                     {div}
                   </option>
                 ))}
               </select>
-              <svg className="absolute right-3 top-3 w-5 h-5 text-gray-400 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="absolute right-3 top-3 w-5 h-5 text-black pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
               </svg>
             </div>
-            <p className="text-xs text-gray-500 mt-1">Divisi: Operasi, Listrik, Instrumen, Mekanik</p>
+            <p className="text-xs text-black mt-1">Divisi: Operasi, Listrik, Instrumen, Mekanik</p>
           </div>
 
           {/* Register Button */}
@@ -204,6 +221,38 @@ export default function RegisterForm() {
             </a>
           </div>
         </form>
+      </div>
+        {showModal && (
+          <Modal message={modalMessage} items={modalItems} onClose={() => setShowModal(false)} />
+        )}
+      </div>
+    );
+}
+
+function Modal({ message, items, onClose }: { message: string; items?: string[]; onClose: () => void }) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="absolute inset-0 bg-black/40" onClick={onClose} />
+      <div className="z-10 w-11/12 max-w-md">
+        <div className="bg-white/20 backdrop-blur-md border border-white/30 shadow-lg rounded-lg p-6 text-white">
+          <h3 className="text-lg font-semibold mb-2 text-black">Perhatian</h3>
+          <p className="text-sm text-black/90 mb-3">{message}</p>
+          {items && items.length > 0 && (
+            <ul className="list-disc list-inside text-sm text-black/90 mb-4">
+              {items.map((it) => (
+                <li key={it}>{it}</li>
+              ))}
+            </ul>
+          )}
+          <div className="text-right">
+            <button
+              onClick={onClose}
+              className="px-4 py-2 bg-blue-600/90 text-white rounded hover:bg-blue-700/90 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            >
+              Tutup
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
