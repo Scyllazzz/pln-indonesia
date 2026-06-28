@@ -3,13 +3,13 @@ import { prisma } from '@/app/lib/prisma';
 import bcrypt from 'bcryptjs';
 
 // Simple JWT-like token generator (in production, use a proper JWT library)
-function generateToken(userId: number, username: string, name: string, role: string): string {
+function generateToken(userId: number, username: string, name: string, role: string, divisi: string): string {
   const payload = {
     userId,
     username,
     name,
     role,
-    divisi: user.divisi,
+    divisi,
     iat: Math.floor(Date.now() / 1000),
   };
   // Simple base64 encoding (NOT secure for production)
@@ -51,7 +51,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Generate token
-    const token = generateToken(user.id, user.username, user.name, user.role);
+    const token = generateToken(user.id, user.username, user.name, user.role, user.divisi);
 
     return NextResponse.json(
       {
