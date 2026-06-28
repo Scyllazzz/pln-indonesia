@@ -18,10 +18,24 @@ function normalizeRequestStatus(status: unknown) {
   return RequestStatus.PENDING;
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    // Return all service requests
+    const { searchParams } = new URL(request.url);
+    const userId = searchParams.get('userId');
+    const divisi = searchParams.get('divisi');
+
+    const where: Record<string, unknown> = {};
+
+    if (userId) {
+      where.userId = parseInt(userId);
+    }
+
+    if (divisi) {
+      where.user = { divisi };
+    }
+
     const serviceRequests = await prisma.serviceRequest.findMany({
+      where,
       include: {
         user: {
           select: {

@@ -9,6 +9,7 @@ function generateToken(userId: number, username: string, name: string, role: str
     username,
     name,
     role,
+    divisi: user.divisi,
     iat: Math.floor(Date.now() / 1000),
   };
   // Simple base64 encoding (NOT secure for production)

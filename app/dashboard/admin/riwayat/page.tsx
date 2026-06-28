@@ -36,7 +36,10 @@ export default function AdminRiwayatRequestPage() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await fetch('/api/service-requests');
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(atob(token || ''));
+        const divisi = user.divisi;
+        const response = await fetch(`/api/service-requests?divisi=${divisi}`);
         if (response.ok) {
           const data = await response.json();
           setRequests(data);

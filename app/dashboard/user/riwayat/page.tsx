@@ -24,7 +24,9 @@ export default function RiwayatRequestPage() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await fetch('/api/service-requests');
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(atob(token || ''));
+        const response = await fetch(`/api/service-requests?userId=${user.userId}`);
         if (response.ok) {
           const data = await response.json();
           setRequests(data);
