@@ -141,7 +141,7 @@ export default function UserDashboardPage() {
                         name="date"
                         value={formData.date}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 focus:outline-none focus:border-blue-500"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -151,7 +151,7 @@ export default function UserDashboardPage() {
                         value={formData.unit}
                         onChange={handleChange}
                         placeholder=""
-                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 focus:outline-none focus:border-blue-500"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -161,7 +161,7 @@ export default function UserDashboardPage() {
                         value={formData.noSR}
                         onChange={handleChange}
                         placeholder=""
-                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 focus:outline-none focus:border-blue-500"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -171,7 +171,7 @@ export default function UserDashboardPage() {
                         value={formData.serviceRequests}
                         onChange={handleChange}
                         placeholder=""
-                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 focus:outline-none focus:border-blue-500"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -181,7 +181,7 @@ export default function UserDashboardPage() {
                         value={formData.seksi}
                         onChange={handleChange}
                         placeholder=""
-                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 focus:outline-none focus:border-blue-500"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -191,7 +191,7 @@ export default function UserDashboardPage() {
                         value={formData.noWO}
                         onChange={handleChange}
                         placeholder=""
-                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 focus:outline-none focus:border-blue-500"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -211,7 +211,7 @@ export default function UserDashboardPage() {
                         value={formData.keterangan}
                         onChange={handleChange}
                         placeholder=""
-                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 focus:outline-none focus:border-blue-500"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -220,7 +220,7 @@ export default function UserDashboardPage() {
                         name="tanggalPengerjaan"
                         value={formData.tanggalPengerjaan}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 focus:outline-none focus:border-blue-500"
                       />
                     </td>
                     <td className="px-6 py-4">

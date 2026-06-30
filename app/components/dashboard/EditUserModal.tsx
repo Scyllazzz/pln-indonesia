@@ -43,6 +43,7 @@ export default function EditUserModal({
   const [formData, setFormData] = useState({
     name: user?.name || '',
     username: user?.username || '',
+    password: '',
     divisi: user?.divisi || '',
     role: user?.role || 'USER',
     status: 'Aktif',
@@ -70,7 +71,7 @@ export default function EditUserModal({
       <div className="bg-white rounded-lg shadow-lg w-full max-w-md">
         {/* Header */}
         <div className="flex justify-between items-center p-6 border-b">
-          <h2 className="text-lg font-semibold">Edit User</h2>
+          <h2 className="text-lg font-semibold text-gray-900">Edit User</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
             <X size={24} />
           </button>
@@ -87,7 +88,7 @@ export default function EditUserModal({
               name="name"
               value={formData.name}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
@@ -100,7 +101,21 @@ export default function EditUserModal({
               name="username"
               value={formData.username}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Password <span className="text-gray-500">(kosongkan jika tidak diubah)</span>
+            </label>
+            <input
+              type="password"
+              name="password"
+              placeholder="Masukkan password baru"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
@@ -112,7 +127,7 @@ export default function EditUserModal({
               name="status"
               value={formData.status}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               {STATUS_OPTIONS.map(status => (
                 <option key={status} value={status}>{status}</option>
@@ -128,7 +143,7 @@ export default function EditUserModal({
               name="role"
               value={formData.role}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               {ROLE_OPTIONS.map(role => (
                 <option key={role} value={role}>{role}</option>
@@ -144,7 +159,7 @@ export default function EditUserModal({
               name="divisi"
               value={formData.divisi}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Pilih Divisi</option>
               {DIVISI_OPTIONS.map(divisi => (
@@ -164,7 +179,7 @@ export default function EditUserModal({
           </button>
           <button
             onClick={handleSave}
-            className="px-4 py-2 bg-black text-white rounded-lg hover:bg-gray-800"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
           >
             Simpan
           </button>

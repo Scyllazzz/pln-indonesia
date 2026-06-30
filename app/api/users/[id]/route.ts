@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/app/lib/prisma';
+import bcrypt from 'bcryptjs';
 
 // GET single user
 export async function GET(
@@ -43,16 +44,23 @@ export async function PUT(
 ) {
   try {
     const { id } = await params;
-    const { name, username, divisi, role } = await request.json();
+    const { name, username, divisi, role, password } = await request.json();
+
+    const data: Record<string, unknown> = {
+      name,
+      username,
+      divisi,
+      role,
+    };
+
+    if (password) {
+      const salt = await bcrypt.genSalt(10);
+      data.password = await bcrypt.hash(password, salt);
+    }
 
     const user = await prisma.user.update({
       where: { id: parseInt(id) },
-      data: {
-        name,
-        username,
-        divisi,
-        role,
-      },
+      data,
     });
 
     return NextResponse.json({

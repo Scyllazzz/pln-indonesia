@@ -39,7 +39,10 @@ export default function AdminDashboardPage() {
   useEffect(() => {
     const fetchRequests = async () => {
       try {
-        const response = await fetch('/api/service-requests');
+        const token = localStorage.getItem('token');
+        const user = JSON.parse(atob(token || ''));
+        const divisi = user.divisi;
+        const response = await fetch(`/api/service-requests?divisi=${divisi}`);
         if (response.ok) {
           const data = await response.json();
           setServiceRequests(data);
@@ -106,7 +109,7 @@ export default function AdminDashboardPage() {
                         name="date"
                         value={formData.date}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 focus:outline-none focus:border-blue-500"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -116,7 +119,7 @@ export default function AdminDashboardPage() {
                         value={formData.unit}
                         onChange={handleChange}
                         placeholder=""
-                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 focus:outline-none focus:border-blue-500"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -126,7 +129,7 @@ export default function AdminDashboardPage() {
                         value={formData.noSR}
                         onChange={handleChange}
                         placeholder=""
-                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 focus:outline-none focus:border-blue-500"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -136,7 +139,7 @@ export default function AdminDashboardPage() {
                         value={formData.serviceRequests}
                         onChange={handleChange}
                         placeholder=""
-                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 focus:outline-none focus:border-blue-500"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -146,7 +149,7 @@ export default function AdminDashboardPage() {
                         value={formData.seksi}
                         onChange={handleChange}
                         placeholder=""
-                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 focus:outline-none focus:border-blue-500"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -156,7 +159,7 @@ export default function AdminDashboardPage() {
                         value={formData.noWO}
                         onChange={handleChange}
                         placeholder=""
-                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 focus:outline-none focus:border-blue-500"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -176,7 +179,7 @@ export default function AdminDashboardPage() {
                         value={formData.keterangan}
                         onChange={handleChange}
                         placeholder=""
-                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 focus:outline-none focus:border-blue-500"
                       />
                     </td>
                     <td className="px-6 py-4">
@@ -185,7 +188,7 @@ export default function AdminDashboardPage() {
                         name="tanggalPengerjaan"
                         value={formData.tanggalPengerjaan}
                         onChange={handleChange}
-                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-500"
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm text-gray-900 focus:outline-none focus:border-blue-500"
                       />
                     </td>
                     <td className="px-6 py-4">
